@@ -1000,6 +1000,7 @@
                 font-size: 11px;
             }
         }
+        
 
         /* Correção extra para telas muito pequenas */
         @media (max-width: 360px) {
@@ -1084,6 +1085,112 @@
             }
         }
 
+        /* ===== ANIMAÇÕES ===== */
+        /* ====== ANIMAÇÕES DE SCROLL ====== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Animação para os cards de estatísticas */
+        .stat-card {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            transition: all 0.8s ease-out;
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Animação para o gráfico */
+        .chart-container {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out 0.2s;
+            /* Delay de 0.2s */
+        }
+
+        .chart-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animação para as seções */
+        section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Efeito de stagger para os itens do grid */
+        .info-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .info-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animação para os mapas 360 */
+        .mapa-360-container {
+            opacity: 0;
+            transform: perspective(1000px) rotateX(10deg);
+            transition: all 0.8s ease-out;
+        }
+
+        .mapa-360-container.visible {
+            opacity: 1;
+            transform: perspective(1000px) rotateX(0);
+        }
     </style>
 </head>
 
@@ -1119,9 +1226,9 @@
     </nav>
 
     <main>
-        <section id="sobre">
+        <section id="sobre" class="fade-in">
             <h2 class="section-title">Sobre o Novembro Azul</h2>
-            <div class="card">
+            <div class="card fade-in">
                 <p>Novembro Azul é um movimento internacional que acontece durante o mês de novembro para reforçar a
                     importância da prevenção e do diagnóstico precoce do câncer de próstata.</p>
                 <p>A doença é o tipo de câncer mais comum entre os homens no Brasil (depois do câncer de pele
@@ -1141,9 +1248,9 @@
             </div>
         </section>
 
-        <section id="dados">
+        <section id="dados" class="fade-in">
             <h2 class="section-title">Dados de Procedimentos - Juiz de Fora/MG</h2>
-            <div class="card">
+            <div class="card fade-in">
                 <p>Os dados abaixo, extraídos do Tabnet (SIA/SUS), mostram o volume mensal de procedimentos realizados
                     em Juiz de Fora/MG (Jan-Ago 2025, dados simulados). Eles ilustram a jornada do paciente desde a
                     consulta inicial até a confirmação diagnóstica.</p>
@@ -1157,7 +1264,7 @@
                     <canvas id="mainChart"></canvas>
                 </div>
 
-                <div class="insight-box">
+                <div class="insight-box fade-in">
                     <div class="insight-title">Análise do Funil Diagnóstico</div>
                     <p id="insight-text">Os dados revelam um fluxo de cuidado lógico e eficiente. O grande volume de
                         <strong>consultas especializadas</strong> representa a porta de entrada para a avaliação da
@@ -1216,14 +1323,14 @@
             </div>
         </section>
 
-        <section id="prevencao">
+        <section id="prevencao" class="fade-in">
             <h2 class="section-title">Prevenção e Fatores de Risco</h2>
-            <div class="card">
+            <div class="card fade-in">
                 <p>A detecção precoce é a chave para o tratamento bem-sucedido do câncer de próstata. Homens a partir de
                     50 anos (ou 45, se houver fatores de risco) devem conversar com seu médico sobre o rastreamento.</p>
 
                 <div class="info-grid">
-                    <div class="info-item">
+                    <div class="info-item slide-in-left">
                         <div class="info-icon"><i> симптомы </i></div>
                         <div>
                             <h3>Sintomas de Alerta</h3>
@@ -1231,7 +1338,7 @@
                                 jato de urina ou sangue na urina. Na fase inicial, pode não haver sintomas.</p>
                         </div>
                     </div>
-                    <div class="info-item">
+                    <div class="info-item slide-in-right">
                         <div class="info-icon"><i>👨‍⚕️</i></div>
                         <div>
                             <h3>Exame de Toque Retal</h3>
@@ -1239,7 +1346,7 @@
                                 pode detectar anomalias.</p>
                         </div>
                     </div>
-                    <div class="info-item">
+                    <div class="info-item slide-in-left">
                         <div class="info-icon"><i>🩸</i></div>
                         <div>
                             <h3>Exame de PSA</h3>
@@ -1247,7 +1354,7 @@
                                 podem indicar problemas na próstata.</p>
                         </div>
                     </div>
-                    <div class="info-item">
+                    <div class="info-item slide-in-right">
                         <div class="info-icon"><i>🥗</i></div>
                         <div>
                             <h3>Hábitos Saudáveis</h3>
@@ -1314,9 +1421,9 @@
         </div>
 
 
-        <section id="vida-ativa-jf">
+        <section id="vida-ativa-jf" class="fade-in">
             <h2 class="section-title">🏃‍♀️ Cuide-se em Juiz de Fora: Dicas para uma Vida Ativa</h2>
-            <div class="card">
+            <div class="card fade-in">
                 <div class="vajf-info">
                     <p>
                         Manter o corpo em movimento é uma das melhores formas de cuidar da saúde e prevenir doenças.
@@ -1377,7 +1484,7 @@
                 </ul>
 
                 <div class="vajf-lembrese">
-                    <p style="font-weight: bold; color: #444;">
+                    <p style="font-weight: bold; color: #ffffff;">
                         💡 Lembre-se: o mais importante é começar! Pequenos passos diários fazem uma grande diferença
                         para o
                         corpo e a mente.
@@ -1901,6 +2008,7 @@
             const mapaContainer = document.getElementById('mapaContainer');
             const mapaDescricao = document.getElementById('mapaDescricao');
 
+            
             if (!mapaContainer || !mapaDescricao) {
                 console.error('Elementos do mapa não encontrados!');
                 return;
@@ -2098,6 +2206,168 @@
                     }
                 }
             });
+        });
+
+        // ====== ANIMAÇÕES DE SCROLL ======
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+
+                        // Animação em sequência para itens do grid
+                        if (entry.target.classList.contains('info-grid')) {
+                            const items = entry.target.querySelectorAll('.info-item');
+                            items.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.classList.add('visible');
+                                }, index * 150); // Delay progressivo
+                            });
+                        }
+
+                        // Animação em sequência para cards de estatísticas
+                        if (entry.target.classList.contains('grid-2')) {
+                            const cards = entry.target.querySelectorAll('.stat-card');
+                            cards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.classList.add('visible');
+                                }, index * 200);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Elementos para observar
+            const elementsToAnimate = [
+                ...document.querySelectorAll('.fade-in'),
+                ...document.querySelectorAll('.slide-in-left'),
+                ...document.querySelectorAll('.slide-in-right'),
+                ...document.querySelectorAll('.scale-in'),
+                ...document.querySelectorAll('section'),
+                ...document.querySelectorAll('.chart-container'),
+                ...document.querySelectorAll('.mapa-360-container'),
+                ...document.querySelectorAll('.info-grid'),
+                ...document.querySelectorAll('.grid-2')
+            ];
+
+            elementsToAnimate.forEach(el => {
+                if (el) observer.observe(el);
+            });
+        }
+
+        // ====== ANIMAÇÃO DE CARREGAMENTO INICIAL ======
+        function initPageAnimations() {
+            // Animação suave para o header
+            const header = document.querySelector('header');
+            if (header) {
+                header.style.opacity = '0';
+                header.style.transform = 'translateY(-20px)';
+
+                setTimeout(() => {
+                    header.style.transition = 'all 0.8s ease-out';
+                    header.style.opacity = '1';
+                    header.style.transform = 'translateY(0)';
+                }, 100);
+            }
+
+            // Iniciar animações de scroll após um breve delay
+            setTimeout(() => {
+                initScrollAnimations();
+            }, 500);
+        }
+
+        // ====== ANIMAÇÃO PARA LINKS DE NAVEGAÇÃO ======
+        function initSmoothScrolling() {
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+
+                    if (targetSection) {
+                        // Fechar menu mobile se estiver aberto
+                        const hamburger = document.getElementById('hamburger');
+                        const navLinks = document.getElementById('navLinks');
+                        if (hamburger && navLinks) {
+                            hamburger.classList.remove('active');
+                            navLinks.classList.remove('active');
+                        }
+
+                        // Scroll suave para a seção
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // ====== ANIMAÇÃO PARA BOTÕES ======
+        function initButtonAnimations() {
+            const buttons = document.querySelectorAll('button, .nav-link, .footer-link');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    // Efeito de ripple
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+            `;
+
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        }
+
+        // Adicione este keyframe para o efeito ripple
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+        document.head.appendChild(rippleStyle);
+
+        // ====== INICIALIZAR TODAS AS ANIMAÇÕES ======
+        document.addEventListener('DOMContentLoaded', function () {
+            // Aguardar o carregamento dos dados
+            setTimeout(() => {
+                initPageAnimations();
+                initSmoothScrolling();
+                initButtonAnimations();
+            }, 1000);
         });
 
     </script>
