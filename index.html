@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sumário - Projeto Novembro Azul</title>
+    <title>Novembro Azul - Conscientização sobre o Câncer de Próstata</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --azul-principal: #007bff;
+            --azul-claro: #cce5ff;
+            --azul-escuro: #0056b3;
+            --cinza-claro: #f8f9fa;
+            --cinza-escuro: #343a40;
+            --branco: #ffffff;
+
+            /* Novas variáveis para modo escuro */
+            --bg-escuro: #1a1a1a;
+            --bg-card-escuro: #2d2d2d;
+            --texto-escuro: #e0e0e0;
+            --texto-claro-escuro: #b0b0b0;
+            --borda-escura: #404040;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,51 +30,41 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        :root {
-            --azul-principal: #007bff;
-            --azul-escuro: #0056b3;
-            --azul-claro: #cce5ff;
-            --cinza-claro: #f8f9fa;
-            --cinza-escuro: #343a40;
-            --branco: #ffffff;
-            --verde: #28a745;
-            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
         body {
-            background: linear-gradient(135deg, var(--azul-claro), var(--branco));
+            background-color: var(--cinza-claro);
             color: var(--cinza-escuro);
             line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         header {
-            text-align: center;
-            padding: 3rem 1rem;
             background: linear-gradient(135deg, var(--azul-principal), var(--azul-escuro));
             color: var(--branco);
-            border-radius: 15px;
-            margin-bottom: 3rem;
-            box-shadow: var(--sombra);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
         .logo {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             background-color: var(--branco);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .logo i {
+            color: var(--azul-principal);
             font-size: 2.5rem;
-            box-shadow: var(--sombra);
+            font-style: normal;
         }
 
         h1 {
@@ -66,114 +74,314 @@
 
         .subtitle {
             font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+        nav {
+            background-color: var(--branco);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: var(--cinza-escuro);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .nav-link:hover {
+            background-color: var(--azul-claro);
+            color: var(--azul-escuro);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--azul-escuro);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        section {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--azul-escuro);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--azul-principal);
+            margin: 0.5rem auto;
         }
 
         .card {
-            background: var(--branco);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: var(--sombra);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px solid transparent;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-            border-color: var(--azul-principal);
-        }
-
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--azul-claro);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--azul-principal);
-        }
-
-        .card h3 {
-            color: var(--azul-escuro);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .card p {
-            color: var(--cinza-escuro);
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--azul-principal), var(--azul-escuro));
-            color: var(--branco);
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
-        }
-
-        .btn-external {
-            background: linear-gradient(135deg, var(--verde), #20c997);
-        }
-
-        .status-section {
-            background: var(--branco);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: var(--sombra);
+            background-color: var(--branco);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .status-section h2 {
-            color: var(--azul-escuro);
-            text-align: center;
-            margin-bottom: 1.5rem;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .status-grid {
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--azul-principal);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--cinza-escuro);
+        }
+
+        .chart-container {
+            height: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .insight-box {
+            background-color: var(--azul-claro);
+            border-left: 4px solid var(--azul-principal);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .insight-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--azul-escuro);
+        }
+
+        .vajf-info {
+            background-color: var(--azul-claro);
+            border-left: 4px solid var(--azul-principal);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .vajf-lembrese {
+            background-color: var(--azul-claro);
+            border-left: 4px solid var(--azul-principal);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .vajf-subtitle {
+            text-align: center;
+            color: #006400;
+            margin-top: 1.5rem;
+        }
+
+        /* Estilos do Carrossel */
+        .carrossel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .carrossel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 400px;
+        }
+
+        .carrossel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carrossel-imagem {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carrossel-descricao {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+        }
+
+        .carrossel-titulo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .carrossel-texto {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+
+        .carrossel-controles {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+        .carrossel-botao {
+            background: var(--azul-principal);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .carrossel-botao:hover {
+            background: var(--azul-escuro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .carrossel-botao:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .carrossel-indicadores {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .carrossel-indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carrossel-indicador.ativo {
+            background: var(--azul-principal);
+            transform: scale(1.2);
+        }
+
+        /* Responsividade do Carrossel */
+        @media (max-width: 768px) {
+            .carrossel-container {
+                margin: 1rem auto;
+            }
+
+            .carrossel {
+                height: 300px;
+            }
+
+            .carrossel-descricao {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .carrossel-titulo {
+                font-size: 1.2rem;
+            }
+
+            .carrossel-texto {
+                font-size: 0.9rem;
+            }
+
+            .carrossel-botao {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
+            margin-top: 2rem;
         }
 
-        .status-item {
+        .info-item {
             display: flex;
-            align-items: center;
-            padding: 1rem;
-            background: var(--cinza-claro);
-            border-radius: 10px;
+            align-items: flex-start;
         }
 
-        .status-icon {
+        .info-icon {
+            background-color: var(--azul-claro);
+            color: var(--azul-principal);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -181,208 +389,1988 @@
             justify-content: center;
             align-items: center;
             margin-right: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .status-completed {
-            background: var(--verde);
-            color: white;
-        }
-
-        .status-progress {
-            background: #ffc107;
-            color: black;
-        }
-
-        .status-pending {
-            background: #6c757d;
-            color: white;
+            flex-shrink: 0;
+            font-style: normal;
         }
 
         footer {
+            background-color: var(--cinza-escuro);
+            color: var(--branco);
+            padding: 2rem 1rem;
             text-align: center;
-            padding: 2rem;
-            color: var(--cinza-escuro);
-            border-top: 1px solid var(--azul-claro);
-            margin-top: 3rem;
         }
 
-        .performance-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-link {
+            color: var(--branco);
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 1.5rem;
             font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .lgpd-notice {
+            background-color: var(--azul-claro);
+            border: 2px solid var(--azul-principal);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .lgpd-header {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: var(--azul-claro);
+            color: var(--azul-escuro);
             font-weight: 600;
-            margin-top: 0.5rem;
+        }
+
+        .data-table tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        .table-title {
+            margin-bottom: 1rem;
+            color: var(--azul-escuro);
+            text-align: center;
+        }
+
+        .series-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .series-checkbox {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+
+        .series-checkbox input {
+            margin-right: 0.25rem;
+        }
+
+        /* Estilos para Mapas 360 - NOVO CÓDIGO */
+        .mapa-360-container {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            height: 400px;
+        }
+
+        .mapa-360-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .mapa-360-descricao {
+            background: var(--azul-principal);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .mapa-controles {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mapa-botao {
+            background: var(--azul-principal);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .mapa-botao:hover {
+            background: var(--azul-escuro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .mapa-botao.ativo {
+            background: var(--azul-escuro);
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-            
             h1 {
                 font-size: 2rem;
             }
-            
-            .subtitle {
+
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                background-color: var(--branco);
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-link {
+                padding: 1rem;
+                border-bottom: 1px solid var(--azul-claro);
+                text-align: center;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .chart-container {
+                height: 400px;
+            }
+
+            .series-selector {
+                justify-content: center;
+            }
+
+            .mapa-360-container {
+                height: 300px;
+                margin: 1rem auto;
+            }
+
+            .mapa-360-descricao {
+                padding: 0.8rem;
                 font-size: 1rem;
             }
+
+            .mapa-botao {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .mapa-controles {
+                gap: 0.5rem;
+            }
+
+            #acessibilidade-container {
+                top: 70px;
+                right: 5px;
+                max-width: 180px;
+                padding: 12px;
+            }
+
+            #acessibilidade-container button {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            #controle-velocidade {
+                font-size: 13px;
+            }
+        }
+
+        /* ====== MODO ESCURO ====== */
+        body.modo-escuro {
+            background-color: var(--bg-escuro);
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro header {
+            background: linear-gradient(135deg, #2c5282, #1a365d) !important;
+        }
+
+        body.modo-escuro nav {
+            background-color: var(--bg-card-escuro);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        body.modo-escuro .nav-link {
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .nav-link:hover {
+            background-color: #3a3a3a;
+            color: var(--branco);
+        }
+
+        body.modo-escuro .card {
+            background-color: var(--bg-card-escuro);
+            color: var(--texto-escuro);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        body.modo-escuro .section-title {
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .section-title::after {
+            background-color: #4a90e2;
+        }
+
+        body.modo-escuro .insight-box,
+        body.modo-escuro .vajf-info,
+        body.modo-escuro .vajf-lembrese {
+            background-color: #3a3a3a;
+            border-left-color: #4a90e2;
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .insight-title {
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .stat-number {
+            color: #4a90e2;
+        }
+
+        body.modo-escuro .stat-label {
+            color: var(--texto-claro-escuro);
+        }
+
+        body.modo-escuro .info-icon {
+            background-color: #3a3a3a;
+            color: #4a90e2;
+        }
+
+        body.modo-escuro footer {
+            background-color: #2d2d2d;
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .data-table th {
+            background-color: #3a3a3a;
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .data-table td {
+            border-bottom-color: #404040;
+        }
+
+        body.modo-escuro .data-table tr:hover {
+            background-color: rgba(74, 144, 226, 0.1);
+        }
+
+        body.modo-escuro .lgpd-notice {
+            background-color: #3a3a3a;
+            border-color: #4a90e2;
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro .lgpd-header {
+            background-color: #2c5282;
+            color: var(--texto-escuro);
+        }
+
+        /* Painel de acessibilidade no modo escuro */
+        body.modo-escuro #acessibilidade-container {
+            background: rgba(45, 45, 45, 0.95);
+            border-color: #404040;
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro #controle-velocidade {
+            color: var(--texto-escuro);
+        }
+
+        body.modo-escuro #valor-velocidade {
+            color: var(--texto-claro-escuro);
+        }
+
+        /* Combinação de modos */
+        body.modo-escuro.modo-daltonismo {
+            filter: grayscale(0.8) contrast(1.2) brightness(0.9);
+        }
+
+        /* Botão do tema */
+        #toggle-tema {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        #toggle-tema:hover {
+            background: linear-gradient(135deg, #5a6fd8, #6a4190);
+            transform: translateY(-2px);
+        }
+
+        /* Melhorias para o gráfico de óbitos no modo escuro */
+        .grafico-container {
+            height: 500px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .controles-grafico {
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--azul-claro);
+            border-radius: 8px;
+        }
+
+        .controles-grafico label {
+            font-weight: bold;
+            margin-right: 1rem;
+            color: var(--azul-escuro);
+        }
+
+        .controles-grafico select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--azul-principal);
+            border-radius: 6px;
+            background: white;
+            font-size: 1rem;
+        }
+
+        .info-total {
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 480px) {
+            #acessibilidade-container {
+                position: fixed;
+                bottom: 10px;
+                top: auto;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            #acessibilidade-container button {
+                flex: 1;
+                min-width: 120px;
+                margin: 2px;
+            }
+
+            #controle-velocidade {
+                flex-basis: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            #velocidade-fala {
+                width: 90%;
+                margin: 5px auto;
+            }
+
+        }
+
+        /* ====== Painel de Acessibilidade ====== */
+        /* ====== PAINEL DE ACESSIBILIDADE CORRIGIDO ====== */
+        #acessibilidade-container {
+            position: fixed;
+            top: 80px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e0e0e0;
+            max-width: 200px;
+        }
+
+        #acessibilidade-container button,
+        #acessibilidade-container label {
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        /* Botões individuais */
+        #toggle-daltonismo {
+            background-color: #007bff;
+        }
+
+        #toggle-daltonismo:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        #texto-fala {
+            background-color: #28a745;
+        }
+
+        #texto-fala:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        #ler-selecao {
+            background-color: #ffc107;
+            color: #222;
+        }
+
+        #ler-selecao:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        #controle-velocidade {
+            background: none;
+            color: #333;
+            font-size: 14px;
+            padding: 5px 0;
+            box-shadow: none;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Input de velocidade */
+        #velocidade-fala {
+            width: 100%;
+            accent-color: #007bff;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        /* Indicador de velocidade */
+        #valor-velocidade {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        /* ====== Efeito do Modo Daltonismo ====== */
+        body.modo-daltonismo {
+            filter: grayscale(0.8) contrast(1.2);
+        }
+
+        body.modo-daltonismo header {
+            background: linear-gradient(135deg, #555, #333) !important;
+        }
+
+        /* Garantir que o painel fique fixo mesmo no modo daltonismo */
+        body.modo-daltonismo #acessibilidade-container {
+            position: fixed !important;
+            top: 80px !important;
+            right: 10px !important;
+            z-index: 1001 !important;
+        }
+
+
+        /* ====== RESPONSIVIDADE DO PAINEL DE ACESSIBILIDADE ====== */
+        @media (max-width: 768px) {
+            #acessibilidade-container {
+                top: 70px;
+                right: 5px;
+                max-width: 180px;
+                padding: 12px;
+            }
+
+            #acessibilidade-container button {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            #controle-velocidade {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #acessibilidade-container {
+                position: fixed;
+                top: 70px;
+                /* SEMPRE NO TOPO */
+                bottom: auto;
+                /* Remove posicionamento do fundo */
+                right: 5px;
+                left: auto;
+                max-width: 160px;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                z-index: 1001;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(5px);
+                border: 2px solid #e0e0e0;
+                padding: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                max-height: calc(100vh - 80px);
+                /* Limita altura */
+                overflow-y: auto;
+                /* Scroll se necessário */
+            }
+
+            #acessibilidade-container button {
+                flex: none;
+                min-width: auto;
+                margin: 3px 0;
+                font-size: 12px;
+                padding: 8px 10px;
+                width: 100%;
+            }
+
+            #controle-velocidade {
+                flex-basis: auto;
+                text-align: center;
+                margin-top: 8px;
+                font-size: 12px;
+                width: 100%;
+            }
+
+            #velocidade-fala {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            #valor-velocidade {
+                font-size: 11px;
+            }
+        }
+        
+
+        /* Correção extra para telas muito pequenas */
+        @media (max-width: 360px) {
+            #acessibilidade-container {
+                top: 60px;
+                right: 5px;
+                max-width: 150px;
+                padding: 8px;
+            }
+
+            #acessibilidade-container button {
+                font-size: 11px;
+                padding: 6px 8px;
+                margin: 2px 0;
+            }
+
+            #controle-velocidade {
+                font-size: 11px;
+                margin-top: 6px;
+            }
+        }
+
+        /* ====== CORREÇÃO ESPECÍFICA PARA MODO DALTONISMO ====== */
+        body.modo-daltonismo #acessibilidade-container {
+            position: fixed !important;
+            z-index: 1001 !important;
+            top: 70px !important;
+            /* FORÇA posição no topo */
+        }
+
+        /* Correção específica para mobile no modo daltonismo */
+        @media (max-width: 480px) {
+            body.modo-daltonismo #acessibilidade-container {
+                position: fixed !important;
+                top: 70px !important;
+                /* SEMPRE NO TOPO */
+                bottom: auto !important;
+                right: 5px !important;
+                left: auto !important;
+                max-width: 160px !important;
+                background: rgba(255, 255, 255, 0.98) !important;
+            }
+        }
+
+        /* Garantir que o header e nav não cubram o painel */
+        @media (max-width: 480px) {
+            header {
+                position: relative;
+                z-index: 999;
+            }
+
+            nav {
+                position: relative;
+                z-index: 999;
+            }
+
+            /* Espaço para o painel não sobrepor conteúdo */
+            main {
+                margin-top: 10px;
+            }
+        }
+
+        /* Correção específica para o modo escuro em mobile */
+        @media (max-width: 480px) {
+            body.modo-escuro #acessibilidade-container {
+                background: rgba(45, 45, 45, 0.98) !important;
+                border-color: #555;
+                color: var(--texto-escuro);
+            }
+
+            body.modo-escuro.modo-daltonismo #acessibilidade-container {
+                background: rgba(60, 60, 60, 0.98) !important;
+                border-color: #777;
+            }
+
+            body.modo-escuro #controle-velocidade {
+                color: var(--texto-escuro) !important;
+            }
+
+            body.modo-escuro #valor-velocidade {
+                color: var(--texto-claro-escuro) !important;
+            }
+        }
+
+        /* ===== ANIMAÇÕES ===== */
+        /* ====== ANIMAÇÕES DE SCROLL ====== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Animação para os cards de estatísticas */
+        .stat-card {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            transition: all 0.8s ease-out;
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Animação para o gráfico */
+        .chart-container {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out 0.2s;
+            /* Delay de 0.2s */
+        }
+
+        .chart-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animação para as seções */
+        section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Efeito de stagger para os itens do grid */
+        .info-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .info-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animação para os mapas 360 */
+        .mapa-360-container {
+            opacity: 0;
+            transform: perspective(1000px) rotateX(10deg);
+            transition: all 0.8s ease-out;
+        }
+
+        .mapa-360-container.visible {
+            opacity: 1;
+            transform: perspective(1000px) rotateX(0);
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">👨🏻</div>
-            <h1>Projeto Novembro Azul</h1>
-            <p class="subtitle">Conscientização sobre o Câncer de Próstata - Portal de Navegação</p>
-        </header>
-
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon">🌐</div>
-                <h3>Página Oficial</h3>
-                <p>Acesse a página principal do projeto Novembro Azul com todas as informações sobre conscientização, dados de saúde e prevenção.</p>
-                <div style="margin-top: auto;">
-                    <a href="https://hueygangst.github.io/Campanha-NB/" class="btn btn-external" target="_blank">
-                        Acessar Página Oficial
-                    </a>
-                </div>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i>👨🏻</i>
             </div>
-
-            <div class="card">
-                <div class="card-icon">📊</div>
-                <h3>Relatório do Projeto</h3>
-                <p>Visualize o relatório completo do desenvolvimento, cronograma, resultados de performance e análise do PageSpeed Insights.</p>
-                <div class="performance-badge">Performance: 100/100</div>
-                <div style="margin-top: auto;">
-                    <a href="https://pagespeed.web.dev/analysis/https-hueygangst-github-io-Campanha-NB/msyva29n5d?hl=pt-br&form_factor=mobile" class="btn">
-                        Ver Relatório Completo
-                    </a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">💻</div>
-                <h3>Análise das Tecnologias</h3>
-                <p>Explore a análise detalhada das tecnologias utilizadas no projeto, incluindo HTML5, CSS3, JavaScript e Chart.js.</p>
-                <div style="margin-top: auto;">
-                    <a href="tecnologias.html" class="btn">
-                        Ver Análise Técnica
-                    </a>
-                </div>
+            <div>
+                <h1>Novembro Azul</h1>
+                <p class="subtitle">Mês Mundial de Combate ao Câncer de Próstata</p>
             </div>
         </div>
+    </header>
 
-        <div class="status-section">
-            <h2>Status do Projeto</h2>
-            <div class="status-grid">
-                <div class="status-item">
-                    <div class="status-icon status-completed">✓</div>
-                    <div>
-                        <strong>Página Oficial</strong>
-                        <div>Publicada e Funcional</div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#sobre" class="nav-link">Sobre</a>
+                <a href="#dados" class="nav-link">Dados de Saúde</a>
+                <a href="#prevencao" class="nav-link">Prevenção</a>
+                <a href="#diagnostico" class="nav-link">Diagnóstico</a>
+                <a href="#privacidade" class="nav-link">Privacidade</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="sobre" class="fade-in">
+            <h2 class="section-title">Sobre o Novembro Azul</h2>
+            <div class="card fade-in">
+                <p>Novembro Azul é um movimento internacional que acontece durante o mês de novembro para reforçar a
+                    importância da prevenção e do diagnóstico precoce do câncer de próstata.</p>
+                <p>A doença é o tipo de câncer mais comum entre os homens no Brasil (depois do câncer de pele
+                    não-melanoma). A campanha busca quebrar o preconceito masculino de ir ao médico e incentivar a
+                    realização dos exames preventivos.</p>
+
+                <div class="grid-2" style="margin-top: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-number">71.730</div>
+                        <div class="stat-label">Novos casos estimados por ano no Brasil (2023-2025)</div>
                     </div>
-                </div>
-                <div class="status-item">
-                    <div class="status-icon status-completed">✓</div>
-                    <div>
-                        <strong>Performance</strong>
-                        <div>Otimizada (100/100)</div>
-                    </div>
-                </div>
-                <div class="status-item">
-                    <div class="status-icon status-progress">⚡</div>
-                    <div>
-                        <strong>Documentação</strong>
-                        <div>Em Desenvolvimento</div>
-                    </div>
-                </div>
-                <div class="status-item">
-                    <div class="status-icon status-pending">📅</div>
-                    <div>
-                        <strong>Entrega Final</strong>
-                        <div>11/11/2025</div>
+                    <div class="stat-card">
+                        <div class="stat-number">1º</div>
+                        <div class="stat-label">Posição entre os tipos de câncer mais comuns em homens</div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section id="dados" class="fade-in">
+            <h2 class="section-title">Dados de Procedimentos - Juiz de Fora/MG</h2>
+            <div class="card fade-in">
+                <p>Os dados abaixo, extraídos do Tabnet (SIA/SUS), mostram o volume mensal de procedimentos realizados
+                    em Juiz de Fora/MG (Jan-Ago 2025, dados simulados). Eles ilustram a jornada do paciente desde a
+                    consulta inicial até a confirmação diagnóstica.</p>
+
+                <div class="series-selector" id="seriesSelector"
+                    style="justify-content: center; margin-bottom: 1.5rem;">
+                    <!-- Checkboxes gerados pelo JS -->
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="mainChart"></canvas>
+                </div>
+
+                <div class="insight-box fade-in">
+                    <div class="insight-title">Análise do Funil Diagnóstico</div>
+                    <p id="insight-text">Os dados revelam um fluxo de cuidado lógico e eficiente. O grande volume de
+                        <strong>consultas especializadas</strong> representa a porta de entrada para a avaliação da
+                        saúde. Deste total, uma parte avança para o rastreamento com <strong>exames de PSA</strong>.
+                        Finalmente, apenas uma pequena fração com alta suspeita realiza a <strong>biópsia</strong> para
+                        confirmação. Isso demonstra que o sistema de saúde funciona como um filtro, focando os
+                        procedimentos mais complexos apenas nos casos realmente necessários.
+                    </p>
+                </div>
+
+                <h3 class="table-title" id="tableTitle">Tabela de Dados Detalhados por Mês</h3>
+                <div class="table-container">
+                    <table class="data-table" id="dataTable">
+                        <!-- Tabela gerada pelo JS -->
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="analiseObitos" class="analise-section">
+            <h2>Óbitos por Câncer de Próstata por Raça/Cor - Minas Gerais 2024</h2>
+
+            <div class="controles-grafico">
+                <label for="seletorMes">Selecione o Mês:</label>
+                <select id="seletorMes" onchange="atualizarGraficoMes(this.value)">
+                    <!-- Opções serão preenchidas via JavaScript -->
+                </select>
+            </div>
+
+            <!-- Informação do total -->
+            <div class="info-total"
+                style="text-align: center; margin: 15px 0; padding: 15px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3;">
+                <strong style="font-size: 1.1em; color: black;">
+                    Total de óbitos em <span id="mesAtual" style="color: #1976d2;">Jan/2024</span>:
+                    <span id="totalObitos" style="color:#0056b3; font-size: 1.2em;">0</span>
+                </strong>
+            </div>
+
+            <div class="grafico-container">
+                <canvas id="graficoBarrasObitos"></canvas>
+            </div>
+
+            <div class="insight-box">
+                <div class="insight-title">📊 Análise dos Dados Reais do SIM - 2024</div>
+                <p>Dados oficiais do Sistema de Informações sobre Mortalidade mostram a distribuição real dos óbitos por
+                    câncer de próstata em Minas Gerais. Em 2024, foram registrados <strong>1.194 óbitos</strong> no
+                    total. A análise por raça/cor revela importantes disparidades em saúde que precisam ser consideradas
+                    nas políticas públicas.</p>
+            </div>
+
+            <div
+                style="background: color(black) #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
+                <strong>💡 Fonte dos Dados:</strong> MS/SVSA/CGIAE - Sistema de Informações sobre Mortalidade (SIM)<br>
+                <strong>📅 Período:</strong> 2024 | <strong>📍 Local:</strong> Minas Gerais<br>
+                <strong>⚠️ Nota:</strong> Dados preliminares de 2024 atualizados em outubro/2025
+            </div>
+        </section>
+
+        <section id="prevencao" class="fade-in">
+            <h2 class="section-title">Prevenção e Fatores de Risco</h2>
+            <div class="card fade-in">
+                <p>A detecção precoce é a chave para o tratamento bem-sucedido do câncer de próstata. Homens a partir de
+                    50 anos (ou 45, se houver fatores de risco) devem conversar com seu médico sobre o rastreamento.</p>
+
+                <div class="info-grid">
+                    <div class="info-item slide-in-left">
+                        <div class="info-icon"><i> 🚨 </i></div>
+                        <div>
+                            <h3>Sintomas de Alerta</h3>
+                            <p>Fique atento a dificuldades para urinar, necessidade de urinar mais vezes, diminuição do
+                                jato de urina ou sangue na urina. Na fase inicial, pode não haver sintomas.</p>
+                        </div>
+                    </div>
+                    <div class="info-item slide-in-right">
+                        <div class="info-icon"><i>👨‍⚕️</i></div>
+                        <div>
+                            <h3>Exame de Toque Retal</h3>
+                            <p>O médico avalia tamanho, forma e textura da próstata. É um exame rápido e essencial, que
+                                pode detectar anomalias.</p>
+                        </div>
+                    </div>
+                    <div class="info-item slide-in-left">
+                        <div class="info-icon"><i>🩸</i></div>
+                        <div>
+                            <h3>Exame de PSA</h3>
+                            <p>Um exame de sangue que mede a quantidade do Antígeno Prostático Específico. Níveis altos
+                                podem indicar problemas na próstata.</p>
+                        </div>
+                    </div>
+                    <div class="info-item slide-in-right">
+                        <div class="info-icon"><i>🥗</i></div>
+                        <div>
+                            <h3>Hábitos Saudáveis</h3>
+                            <p>Uma dieta rica em frutas, verduras e grãos, e pobre em gordura, além da prática de
+                                exercícios, ajuda a diminuir o risco.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box" style="margin-top: 2rem;">
+                    <div class="insight-title">Principais Fatores de Risco</div>
+                    <p>Os fatores mais importantes são: <strong>idade</strong> (risco aumenta significativamente após os
+                        50 anos), <strong>história familiar</strong> (pai ou irmão com a doença antes dos 60 anos) e
+                        <strong>raça/etnia</strong> (maior incidência em homens negros).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="diagnostico">
+            <h2 class="section-title">Diagnóstico e Tratamento</h2>
+            <div class="card">
+                <p>Se os exames de rastreamento (Toque e PSA) apresentarem alterações, o médico poderá solicitar outros
+                    exames para confirmar o diagnóstico, sendo a biópsia o principal deles.</p>
+
+                <h3 style="margin-top: 1.5rem; color: var(--azul-escuro);">Opções de Tratamento</h3>
+                <p>O tratamento é individualizado e depende do estágio da doença. As opções incluem:</p>
+                <ul style="margin: 1rem 0 1rem 2rem;">
+                    <li>Vigilância Ativa (para tumores de baixa agressividade)</li>
+                    <li>Cirurgia (Prostatectomia Radical)</li>
+                    <li>Radioterapia</li>
+                    <li>Hormonioterapia</li>
+                    <li>Quimioterapia</li>
+                </ul>
+
+                <div class="insight-box">
+                    <div class="insight-title">Entendendo a Escala de Gleason</div>
+                    <p>Após a biópsia, o câncer é classificado pela <strong>Escala de Gleason</strong>, que indica o
+                        grau de agressividade do tumor. A pontuação vai de 2 a 10.</p>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li><strong>Gleason 6:</strong> Câncer de baixa agressividade, geralmente com bom prognóstico.
+                        </li>
+                        <li><strong>Gleason 7:</strong> Agressividade intermediária.</li>
+                        <li><strong>Gleason 8 a 10:</strong> Câncer de alta agressividade, com maior probabilidade de
+                            crescimento e metástase.</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;">Essa pontuação é fundamental para decidir o melhor tratamento a ser
+                        seguido.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTÕES DE ACESSIBILIDADE -->
+        <!-- BOTÕES DE ACESSIBILIDADE CORRIGIDOS -->
+        <div id="acessibilidade-container">
+            <button id="toggle-tema" aria-label="Alternar entre modo claro e escuro">🌓 Tema</button>
+            <button id="toggle-daltonismo" aria-label="Ativar modo daltonismo">♿ Daltonismo</button>
+            <button id="texto-fala" aria-label="Ler toda a página">🗣️ Ler Página</button>
+            <button id="ler-selecao" aria-label="Ler texto selecionado">🔈 Ler Seleção</button>
+
+            <label id="controle-velocidade" for="velocidade-fala">🔊 Velocidade:</label>
+            <input type="range" id="velocidade-fala" min="0.5" max="2" step="0.1" value="1">
+            <div id="valor-velocidade">1.0x</div>
         </div>
 
-        <footer>
-            <p><strong>Projeto Novembro Azul</strong> - Desenvolvido para fins educacionais</p>
-            <p>Conformidade LGPD: Esta plataforma não utiliza cookies nem coleta dados pessoais</p>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: #6c757d;">
-                &copy; 2025 - Todos os direitos reservados
-            </p>
-        </footer>
-    </div>
+
+        <section id="vida-ativa-jf" class="fade-in">
+            <h2 class="section-title">🏃‍♀️ Cuide-se em Juiz de Fora: Dicas para uma Vida Ativa</h2>
+            <div class="card fade-in">
+                <div class="vajf-info">
+                    <p>
+                        Manter o corpo em movimento é uma das melhores formas de cuidar da saúde e prevenir doenças.
+                        Em Juiz de Fora, não faltam espaços ao ar livre que incentivam a prática de atividades físicas,
+                        seja caminhando, correndo ou simplesmente aproveitando o contato com a natureza.
+                        Que tal escolher um desses locais e dar o primeiro passo rumo a uma vida mais ativa e
+                        equilibrada?
+                    </p>
+                </div>
+
+                <!-- Carrossel de Imagens -->
+                <!-- Mapa 360 Interativo - SUBSTITUIR O CARROSSEL -->
+                <div class="carrossel-container">
+                    <div class="mapa-360-container" id="mapaContainer">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m0!4v1701736013643!6m8!1m7!1sCAoSLEFGMVFpcE5kU3R0c2R0V0J0cVRyV2l3WnRfM194T2VhWjJ5dE1hTjFqTjJy!2m2!1d-21.762965!2d-43.349028!3f0!4f0!5f0.7820865974627469"
+                            class="mapa-360-iframe" allowfullscreen loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" title="Vista 360° do Museu Mariano Procópio">
+                        </iframe>
+                        <div class="mapa-360-descricao" id="mapaDescricao">
+                            🗺️ Museu Mariano Procópio - Vista 360° • Arraste para explorar os jardins
+                        </div>
+                    </div>
+
+                    <div class="mapa-controles">
+                        <button class="mapa-botao ativo" onclick="trocarMapa(0)">🏛️ Museu</button>
+                        <button class="mapa-botao" onclick="trocarMapa(1)">🚴‍♂️ Anel Viário</button>
+                        <button class="mapa-botao" onclick="trocarMapa(2)">🌿 Jardim Botânico</button>
+                        <button class="mapa-botao" onclick="trocarMapa(3)">🏞️ Praça Cívica</button>
+                    </div>
+                </div>
+
+                <h3 class="vajf-subtitle">Lugares para se exercitar e relaxar:</h3>
+                <ul>
+                    <li>🌳
+                        <a href="https://www.instagram.com/museumarianoprocopio/?hl=pt" target="_blank"
+                            rel="noopener noreferrer">
+                            Museu Mariano Procópio
+                        </a> — Um dos cartões-postais da cidade, com jardins e trilhas ideais para caminhadas leves.
+                    </li>
+                    <li>🚴‍♂️
+                        <a href="https://www.instagram.com/ufjf/?hl=pt" target="_blank" rel="noopener noreferrer">
+                            Anel Viário da UFJF
+                        </a> — Perfeito para corridas e pedaladas em um ambiente seguro e arborizado.
+                    </li>
+                    <li>🌲
+                        <a href="https://www2.ufjf.br/jardimbotanico/institucional/o-jardim-botanico/" target="_blank"
+                            rel="noopener noreferrer">
+                            Jardim Botânico UFJF
+                        </a> — Um refúgio natural para quem busca contato com a natureza e trilhas de diferentes níveis.
+                    </li>
+                    <li>🏞️
+                        <a href="https://www.google.com/maps/place/Pra%C3%A7a+C%C3%ADvica/@-21.7744507,-43.3687388,3a,75y,90t/data=!3m8!1e2!3m6!1sCIHM0ogKEICAgICZ7PjJcQ!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAG0ilSwZVFqpPkJS2D51UbxuNTuxYhLZ919_0AewSwLV58w8ZD68H7m268q5uto5pFPXuusR3STpea0-Y5U9q6Ft_kagLTDtRae1FPTwDQIVBFSotztbvmxtT1vVU4BvQHo4z52Btis%3Dw397-h298-k-no!7i4618!8i3464!4m9!3m8!1s0x989b9fe54ed147:0x2fca66e8b373c549!8m2!3d-21.774778!4d-43.3685311!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11b6hkmnv0?entry=ttu&g_ep=EgoyMDI1MTEwNC4xIKXMDSoASAFQAw%3D%3D"
+                            rel="noopener noreferrer">
+                            Praça Cívica da UFJF
+                        </a> — Espaço amplo e agradável para caminhadas, alongamentos e encontros com amigos.
+                    </li>
+                </ul>
+
+                <div class="vajf-lembrese">
+                    <p style="font-weight: bold; color: #ffffff;">
+                        💡 Lembre-se: o mais importante é começar! Pequenos passos diários fazem uma grande diferença
+                        para o
+                        corpo e a mente.
+                        Reserve um tempo para se cuidar — sua saúde agradece.
+                    </p>
+                </div>
+            </div>
+            <section id="privacidade">
+                <h2 class="section-title">Privacidade e Proteção de Dados</h2>
+                <div class="card">
+                    <div class="lgpd-notice">
+                        <div class="lgpd-header">🔒 COMPROMISSO COM A LGPD</div>
+                        <p>Esta plataforma educacional foi desenvolvida em conformidade com a Lei Geral de Proteção de
+                            Dados (LGPD - Lei nº 13.709/2018). Não utilizamos cookies e não coletamos nenhum dado
+                            pessoal dos usuários. Todos os dados exibidos são agregados, anonimizados e provenientes de
+                            fontes públicas oficiais (DATASUS).</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Novembro Azul - Combate ao Câncer de Próstata</p>
+            <div class="footer-links">
+                <a href="https://www.inca.gov.br" class="footer-link" target="_blank">INCA</a>
+                <a href="https://www.portaldaurologia.org.br" class="footer-link" target="_blank">Sociedade Brasileira
+                    de Urologia</a>
+                <a href="https://datasus.saude.gov.br" class="footer-link" target="_blank">DATASUS</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 - Desenvolvido para Fins Educacionais.<br>
+                <strong>Conformidade LGPD: Esta plataforma não utiliza cookies nem coleta dados pessoais.</strong>
+            </div>
+        </div>
+    </footer>
+
+
 
     <script>
-        // Adiciona animação suave ao carregar a página
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 200);
+        /* JavaScript para interatividade e gráficos */
+        let chartData = {
+            procedimentos: [],
+            obitos: []
+        };
+
+        // cores de seleção dos botões
+        const colors = {
+            "Consultas Especializadas": '#007bff',
+            "Exames de PSA": '#17a2b8',
+            "Biópsias de Próstata": '#28a745'
+        };
+
+        const coresRacas = {
+            "Óbitos Branca": '#4e73df',
+            "Óbitos Preta": '#1cc88a',
+            "Óbitos Parda": '#36b9cc',
+            "Óbitos Amarela": '#f6c23e',
+            "Óbitos Indígena": '#e74a3b'
+        };
+
+        // Dados e configurações para o gráfico de óbitos por raça
+        let graficoObitos = null;
+        let mainChart;
+        let selectedSeries = ['Consultas Especializadas', 'Exames de PSA', 'Biópsias de Próstata'];
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            const headers = lines.shift().split(';').map(h => h.trim().replace(/"/g, ''));
+
+            const months = headers.slice(1);
+
+            // Criar dados separados para procedimentos (8 meses) e óbitos (12 meses)
+            const monthlyDataProcedimentos = months.slice(0, 8).map(month => ({ "Mês": month }));
+            const monthlyDataObitos = months.map(month => ({
+                "Mês": month.replace('2025', '2024')
+            }));
+
+            const procedureMap = {
+                "0201010410 BIOPSIA DE PROSTATA": "Biópsias de Próstata",
+                "0202030105 DOSAGEM DE ANTIGENO PROSTATICO ESPECIFICO (PSA)": "Exames de PSA",
+                "0301010072 CONSULTA MEDICA EM ATENCAO ESPECIALIZADA": "Consultas Especializadas"
+            };
+
+            const obitosMap = {
+                "Óbitos Branca": "Óbitos Branca",
+                "Óbitos Preta": "Óbitos Preta",
+                "Óbitos Parda": "Óbitos Parda",
+                "Óbitos Amarela": "Óbitos Amarela",
+                "Óbitos Indígena": "Óbitos Indígena",
+                "Óbitos Total": "Óbitos Total"
+            };
+
+            lines.forEach(line => {
+                const values = line.split(';');
+                const procedureNameRaw = values.shift().trim().replace(/"/g, '');
+
+                const cleanProcedureName = procedureMap[procedureNameRaw];
+                const cleanObitoName = obitosMap[procedureNameRaw];
+
+                if (cleanProcedureName) {
+                    values.slice(0, 8).forEach((value, index) => {
+                        if (monthlyDataProcedimentos[index]) {
+                            const numValue = value.replace(/"/g, '').trim();
+                            monthlyDataProcedimentos[index][cleanProcedureName] =
+                                (numValue === '-' || numValue === '') ? 0 : parseInt(numValue) || 0;
+                        }
+                    });
+                }
+
+                if (cleanObitoName) {
+                    values.forEach((value, index) => {
+                        if (monthlyDataObitos[index]) {
+                            const numValue = value.replace(/"/g, '').trim();
+                            monthlyDataObitos[index][cleanObitoName] =
+                                (numValue === '-' || numValue === '') ? 0 : parseInt(numValue) || 0;
+                        }
+                    });
+                }
+            });
+
+            return {
+                procedimentos: monthlyDataProcedimentos,
+                obitos: monthlyDataObitos
+            };
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('dados.csv');
+                if (!response.ok) throw new Error(`Falha ao carregar dados.csv`);
+                const csvText = await response.text();
+                const dadosSeparados = parseCSV(csvText);
+                chartData.procedimentos = dadosSeparados.procedimentos;
+                chartData.obitos = dadosSeparados.obitos;
+                return true;
+            } catch (error) {
+                console.error("Falha ao carregar dados CSV:", error);
+                document.getElementById('dados').innerHTML = `<div class="card" style="text-align:center; color: red;"><h2>Erro ao Carregar os Dados</h2><p>Não foi possível carregar o arquivo dados.csv. Verifique se ele está na mesma pasta que o arquivo HTML.</p></div>`;
+                return false;
+            }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            mainChart = new Chart(ctx, getChartConfig());
+            createSeriesSelector();
+            createTable();
+        }
+
+        function getChartConfig() {
+            const labels = chartData.procedimentos.map(item => item.Mês);
+
+            const datasets = selectedSeries.map(series => ({
+                label: series,
+                data: chartData.procedimentos.map(item => item[series]),
+                borderColor: colors[series],
+                backgroundColor: colors[series] + '90',
+                tension: 0.3,
+                type: (series === 'Consultas Especializadas') ? 'line' : 'bar',
+                yAxisID: (series === 'Consultas Especializadas') ? 'yConsultas' : 'yProcedimentos'
+            }));
+
+            return {
+                type: 'bar',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Procedimentos Mensais em Juiz de Fora - 2025`,
+                            font: { size: 16 }
+                        }
+                    },
+                    scales: {
+                        yConsultas: {
+                            type: 'linear',
+                            position: 'left',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nº de Consultas'
+                            }
+                        },
+                        yProcedimentos: {
+                            type: 'linear',
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nº de Exames / Biópsias'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Mês de Atendimento - 2025'
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        function createSeriesSelector() {
+            const selectorContainer = document.getElementById('seriesSelector');
+            selectorContainer.innerHTML = '';
+            const availableSeries = Object.keys(chartData.procedimentos[0] || {}).filter(
+                k => k !== 'Mês' && !k.includes('Óbitos')
+            );
+
+            availableSeries.forEach(series => {
+                const isChecked = selectedSeries.includes(series);
+                const checkboxId = `series-${series.replace(/\s+/g, '-')}`;
+                const checkboxHTML = `
+                <div class="series-checkbox">
+                    <input type="checkbox" id="${checkboxId}" ${isChecked ? 'checked' : ''} onchange="toggleSeries('${series}')">
+                    <label for="${checkboxId}">${series}</label>
+                </div>`;
+                selectorContainer.innerHTML += checkboxHTML;
+            });
+        }
+
+        function toggleSeries(series) {
+            const index = selectedSeries.indexOf(series);
+            if (index > -1) selectedSeries.splice(index, 1);
+            else selectedSeries.push(series);
+            updateChart();
+        }
+
+        function updateChart() {
+            mainChart.data.datasets = getChartConfig().data.datasets;
+            mainChart.update();
+        }
+
+        function createTable() {
+            const table = document.getElementById('dataTable');
+            const procedimentosColumns = ['Mês', 'Consultas Especializadas', 'Exames de PSA', 'Biópsias de Próstata'];
+
+            let headerHTML = `<tr>${procedimentosColumns.map(c => `<th>${c}</th>`).join('')}</tr>`;
+
+            let bodyHTML = chartData.procedimentos.map(item =>
+                `<tr>${procedimentosColumns.map(c => `<td>${item[c] === undefined ? 0 : item[c]}</td>`).join('')}</tr>`
+            ).join('');
+
+            const totals = {};
+            procedimentosColumns.slice(1).forEach(col => {
+                totals[col] = chartData.procedimentos.reduce((sum, item) => sum + (item[col] || 0), 0);
+            });
+
+            bodyHTML += `<tr style="font-weight: bold; background-color:#0056b3;"><td>Total</td>
+            ${procedimentosColumns.slice(1).map(c => `<td>${totals[c]}</td>`).join('')}</tr>`;
+
+            table.innerHTML = headerHTML + bodyHTML;
+
+            criarTabelaObitos();
+        }
+
+        function criarTabelaObitos() {
+            let obitosTable = document.getElementById('obitosTable');
+            if (!obitosTable) {
+                const newTable = document.createElement('table');
+                newTable.id = 'obitosTable';
+                newTable.className = 'data-table';
+                newTable.style.marginTop = '2rem';
+
+                const title = document.createElement('h3');
+                title.className = 'table-title';
+                title.textContent = 'Tabela de Óbitos por Raça/Cor - 2024';
+
+                const container = document.createElement('div');
+                container.className = 'table-container';
+                container.appendChild(title);
+                container.appendChild(newTable);
+
+                document.getElementById('dataTable').parentNode.appendChild(container);
+                obitosTable = newTable;
+            }
+
+            const obitosColumns = ['Mês', 'Óbitos Branca', 'Óbitos Preta', 'Óbitos Parda', 'Óbitos Amarela', 'Óbitos Indígena', 'Óbitos Total'];
+
+            let headerHTML = `<tr>${obitosColumns.map(c => `<th>${c}</th>`).join('')}</tr>`;
+
+            let bodyHTML = chartData.obitos.map(item =>
+                `<tr>${obitosColumns.map(c => `<td>${item[c] === undefined ? 0 : item[c]}</td>`).join('')}</tr>`
+            ).join('');
+
+            const totals = {};
+            obitosColumns.slice(1).forEach(col => {
+                totals[col] = chartData.obitos.reduce((sum, item) => sum + (item[col] || 0), 0);
+            });
+
+            bodyHTML += `<tr style="font-weight: bold; background-color: #0056b3;"><td>Total</td>
+            ${obitosColumns.slice(1).map(c => `<td>${totals[c]}</td>`).join('')}</tr>`;
+
+            obitosTable.innerHTML = headerHTML + bodyHTML;
+        }
+
+        function formatarMes(mes) {
+            if (mes.includes('/')) {
+                const partes = mes.split('/');
+                if (partes.length === 2) {
+                    return `${partes[1]}/${partes[0]}`;
+                }
+            }
+            return mes;
+        }
+
+        function inicializarGraficoObitos() {
+            const selectMes = document.getElementById('seletorMes');
+            selectMes.innerHTML = '';
+
+            chartData.obitos.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = formatarMes(item.Mês);
+                selectMes.appendChild(option);
+            });
+
+            if (chartData.obitos.length > 0) {
+                atualizarGraficoMes('0');
+            }
+        }
+
+        function atualizarGraficoMes(indiceMes) {
+            const mesSelecionado = chartData.obitos[indiceMes];
+            const ctx = document.getElementById('graficoBarrasObitos').getContext('2d');
+
+            if (graficoObitos) {
+                graficoObitos.destroy();
+            }
+
+            const dadosObitos = Object.keys(mesSelecionado)
+                .filter(key => key.includes('Óbitos') && !key.includes('Total'))
+                .map(raca => {
+                    const valor = mesSelecionado[raca] || 0;
+                    const totalMes = mesSelecionado['Óbitos Total'] || 1;
+                    const percentual = totalMes > 0 ? Math.round((valor / totalMes) * 100) : 0;
+
+                    return {
+                        raca: raca.replace('Óbitos ', ''),
+                        valor: valor,
+                        cor: coresRacas[raca],
+                        percentual: percentual
+                    };
+                })
+                .filter(item => item.valor > 0);
+
+            dadosObitos.sort((a, b) => b.valor - a.valor);
+
+            graficoObitos = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dadosObitos.map(item => item.raca),
+                    datasets: [{
+                        label: `Óbitos por Raça`,
+                        data: dadosObitos.map(item => item.valor),
+                        backgroundColor: dadosObitos.map(item => item.cor),
+                        borderColor: dadosObitos.map(item => item.cor),
+                        borderWidth: 2,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Óbitos por Câncer de Próstata por Raça/Cor - ${formatarMes(mesSelecionado.Mês)} - 2024`,
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            padding: 20
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const percentual = dadosObitos[context.dataIndex].percentual;
+                                    return `Óbitos: ${context.parsed.y} (${percentual}% do total)`;
+                                },
+                                afterLabel: function (context) {
+                                    const total = mesSelecionado['Óbitos Total'] || 0;
+                                    return `Total do mês: ${total} óbitos`;
+                                }
+                            },
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 12
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Número de Óbitos',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                stepSize: 10
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Raça/Cor',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+
+            atualizarInfoObitos(mesSelecionado);
+        }
+
+        function atualizarInfoObitos(mesData) {
+            const totalObitos = mesData['Óbitos Total'] || 0;
+
+            const mesAtualElement = document.getElementById('mesAtual');
+            const totalObitosElement = document.getElementById('totalObitos');
+
+            if (mesAtualElement && totalObitosElement) {
+                mesAtualElement.textContent = formatarMes(mesData.Mês);
+                totalObitosElement.textContent = totalObitos;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const dataLoaded = await loadData();
+
+            if (dataLoaded) {
+                initChart();
+                inicializarGraficoObitos();
+            }
+
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
             });
         });
 
-        // Adiciona feedback visual ao clicar nos botões
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                // Efeito de ripple
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            const dataLoaded = await loadData();
+
+            if (dataLoaded) {
+                initChart();
+                inicializarGraficoObitos();
+            }
+
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+
+            // Inicializar mapa 360
+            inicializarMapa360();
+        });
+
+        // ========== MAPAS 360 INTERATIVOS ==========
+        // Dados dos mapas 360 de Juiz de Fora
+        const mapas360 = [
+            {
+                nome: "Museu Mariano Procópio",
+                embedUrl: "https://www.google.com/maps/embed?pb=!4v1762939640567!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJRHlrcURUWVE.!2m2!1d-21.74640559306947!2d-43.36022852989409!3f4.2286119691972885!4f-63.77610521993376!5f0.7820865974627469",
+                descricao: "🗺️ Museu Mariano Procópio - Vista 360° • Arraste para explorar os jardins históricos"
+            },
+            {
+                nome: "Anel Viário UFJF",
+                embedUrl: "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3357.780904654536!2d-43.37078532169237!3d-21.774936859716902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sanel%20viario%20ufjf!5e1!3m2!1spt-BR!2sbr!4v1762939337153!5m2!1spt-BR!2sbr",
+                descricao: "🗺️ Anel Viário da UFJF - Vista 360° • Perfeito para corridas e pedaladas"
+            },
+            {
+                nome: "Jardim Botânico UFJF",
+                embedUrl: "https://www.google.com/maps/embed?pb=!4v1762938902106!6m8!1m7!1sCAoSHENJQUJJaERkX1dxSXJtbURIVmpDdVhsRThRNEE.!2m2!1d-21.73779807058364!2d-43.36942010202957!3f176.33301!4f0!5f0.7820865974627469",
+                descricao: "🗺️ Jardim Botânico UFJF - Vista 360° • Explore a natureza e trilhas"
+            },
+            {
+                nome: "Praça Cívica UFJF",
+                embedUrl: "https://www.google.com/maps/embed?pb=!1m0!4v1701736013643!6m8!1m7!1sCAoSLEFGMVFpcE5TbS1sLWtJN2VMSmhqTzF3VGNtTUtad196T0lwUWNhVU5sLWsw!2m2!1d-21.774778!2d-43.368531!3f0!4f0!5f0.7820865974627469",
+                descricao: "🗺️ Praça Cívica da UFJF - Vista 360° • Ideal para caminhadas e alongamentos"
+            }
+        ];
+
+        // Função para trocar mapas - DEVE SER GLOBAL
+        window.trocarMapa = function (indice) {
+            console.log('Trocando para mapa:', indice, mapas360[indice].nome);
+
+            const mapaContainer = document.getElementById('mapaContainer');
+            const mapaDescricao = document.getElementById('mapaDescricao');
+
+            
+            if (!mapaContainer || !mapaDescricao) {
+                console.error('Elementos do mapa não encontrados!');
+                return;
+            }
+
+            const mapa = mapas360[indice];
+
+            // Atualizar iframe do mapa
+            const iframe = mapaContainer.querySelector('.mapa-360-iframe');
+            iframe.src = mapa.embedUrl;
+
+            // Atualizar descrição
+            mapaDescricao.textContent = mapa.descricao;
+
+            // Atualizar botões ativos
+            document.querySelectorAll('.mapa-botao').forEach((botao, index) => {
+                if (index === indice) {
+                    botao.classList.add('ativo');
+                } else {
+                    botao.classList.remove('ativo');
+                }
+            });
+        }
+
+        // Inicializar mapa quando a página carregar
+        function inicializarMapa360() {
+            console.log('Inicializando mapa 360...');
+            if (typeof trocarMapa === 'function') {
+                trocarMapa(0); // Começa com o Museu
+            }
+        }
+
+        // ======== ACESSIBILIDADE CORRIGIDA ========
+        document.addEventListener('DOMContentLoaded', function () {
+            // ======== 1. MODO CLARO/ESCURO ========
+            const botaoTema = document.getElementById('toggle-tema');
+
+            // Verificar preferência salva
+            const temaSalvo = localStorage.getItem('tema');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Aplicar tema salvo ou preferência do sistema
+            if (temaSalvo === 'escuro' || (!temaSalvo && prefersDark)) {
+                document.body.classList.add('modo-escuro');
+                botaoTema.textContent = '☀️ Claro';
+            }
+
+            botaoTema.addEventListener('click', () => {
+                const ativandoEscuro = !document.body.classList.contains('modo-escuro');
+                document.body.classList.toggle('modo-escuro');
+
+                if (ativandoEscuro) {
+                    botaoTema.textContent = '☀️ Claro';
+                    localStorage.setItem('tema', 'escuro');
+                } else {
+                    botaoTema.textContent = '🌓 Escuro';
+                    localStorage.setItem('tema', 'claro');
+                }
+            });
+
+            // ======== 2. MODO DALTONISMO ========
+            const botaoDaltonismo = document.getElementById('toggle-daltonismo');
+
+            // Verificar se já estava ativo
+            if (localStorage.getItem('modoDaltonismo') === 'ativo') {
+                document.body.classList.add('modo-daltonismo');
+                botaoDaltonismo.textContent = '🎨 Normal';
+            }
+
+            botaoDaltonismo.addEventListener('click', () => {
+                const ativando = !document.body.classList.contains('modo-daltonismo');
+                document.body.classList.toggle('modo-daltonismo');
+
+                if (ativando) {
+                    botaoDaltonismo.textContent = '🎨 Normal';
+                    localStorage.setItem('modoDaltonismo', 'ativo');
+                } else {
+                    botaoDaltonismo.textContent = '♿ Daltonismo';
+                    localStorage.setItem('modoDaltonismo', 'inativo');
+                }
+            });
+
+            // ======== 3. TEXTO EM FALA ========
+            const botaoTexto = document.getElementById('texto-fala');
+            const botaoSelecao = document.getElementById('ler-selecao');
+            const sliderVelocidade = document.getElementById('velocidade-fala');
+            const valorVelocidade = document.getElementById('valor-velocidade');
+            let synth = window.speechSynthesis;
+            let lendo = false;
+            let utteranceAtual = null;
+
+            // Atualizar display da velocidade
+            sliderVelocidade.addEventListener('input', function () {
+                valorVelocidade.textContent = this.value + 'x';
+            });
+
+            // Ler página inteira
+            botaoTexto.addEventListener('click', () => {
+                if (!lendo) {
+                    // Parar qualquer fala anterior
+                    synth.cancel();
+
+                    const texto = obterTextoPrincipal();
+                    utteranceAtual = new SpeechSynthesisUtterance(texto);
+                    utteranceAtual.lang = 'pt-BR';
+                    utteranceAtual.rate = parseFloat(sliderVelocidade.value);
+
+                    utteranceAtual.onstart = () => {
+                        lendo = true;
+                        botaoTexto.textContent = '⏹️ Parar';
+                        botaoTexto.style.backgroundColor = '#dc3545';
+                    };
+
+                    utteranceAtual.onend = () => {
+                        lendo = false;
+                        botaoTexto.textContent = '🗣️ Ler Página';
+                        botaoTexto.style.backgroundColor = '#28a745';
+                    };
+
+                    utteranceAtual.onerror = () => {
+                        lendo = false;
+                        botaoTexto.textContent = '🗣️ Ler Página';
+                        botaoTexto.style.backgroundColor = '#28a745';
+                    };
+
+                    synth.speak(utteranceAtual);
+                } else {
+                    synth.cancel();
+                    lendo = false;
+                    botaoTexto.textContent = '🗣️ Ler Página';
+                    botaoTexto.style.backgroundColor = '#28a745';
+                }
+            });
+
+            // Ler seleção
+            botaoSelecao.addEventListener('click', () => {
+                const textoSelecionado = window.getSelection().toString().trim();
+                if (textoSelecionado.length > 0) {
+                    // Parar qualquer fala anterior
+                    synth.cancel();
+
+                    utteranceAtual = new SpeechSynthesisUtterance(textoSelecionado);
+                    utteranceAtual.lang = 'pt-BR';
+                    utteranceAtual.rate = parseFloat(sliderVelocidade.value);
+
+                    synth.speak(utteranceAtual);
+
+                    // Feedback visual
+                    botaoSelecao.style.backgroundColor = '#17a2b8';
+                    setTimeout(() => {
+                        botaoSelecao.style.backgroundColor = '#ffc107';
+                    }, 1000);
+                } else {
+                    // Feedback para mobile - mais amigável
+                    if (window.innerWidth <= 768) {
+                        alert('Toque e segure no texto que deseja ouvir, depois toque neste botão.');
+                    } else {
+                        alert('Selecione um texto na página antes de usar esta opção.');
+                    }
+                }
+            });
+
+            // Função para obter texto principal (evita menus e elementos repetitivos)
+            function obterTextoPrincipal() {
+                const elementosIgnorar = ['nav', 'footer', '#acessibilidade-container', '.nav-links'];
+                let textoCompleto = '';
+
+                // Adicionar título principal
+                const titulo = document.querySelector('h1');
+                if (titulo) textoCompleto += titulo.innerText + '. ';
+
+                // Adicionar conteúdo das seções
+                const secoes = document.querySelectorAll('section');
+                secoes.forEach(secao => {
+                    const textos = secao.querySelectorAll('p, h2, h3, li');
+                    textos.forEach(elemento => {
+                        if (!elemento.closest('nav') && !elemento.closest('footer')) {
+                            textoCompleto += elemento.innerText + '. ';
+                        }
+                    });
+                });
+
+                return textoCompleto;
+            }
+
+            // Detectar preferência de tema do sistema
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('tema')) {
+                    if (e.matches) {
+                        document.body.classList.add('modo-escuro');
+                        botaoTema.textContent = '☀️ Claro';
+                    } else {
+                        document.body.classList.remove('modo-escuro');
+                        botaoTema.textContent = '🌓 Escuro';
+                    }
+                }
             });
         });
 
-        // Adiciona estilos para o efeito ripple
-        const style = document.createElement('style');
-        style.textContent = `
-            .ripple {
+        // ====== ANIMAÇÕES DE SCROLL ======
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+
+                        // Animação em sequência para itens do grid
+                        if (entry.target.classList.contains('info-grid')) {
+                            const items = entry.target.querySelectorAll('.info-item');
+                            items.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.classList.add('visible');
+                                }, index * 150); // Delay progressivo
+                            });
+                        }
+
+                        // Animação em sequência para cards de estatísticas
+                        if (entry.target.classList.contains('grid-2')) {
+                            const cards = entry.target.querySelectorAll('.stat-card');
+                            cards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.classList.add('visible');
+                                }, index * 200);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Elementos para observar
+            const elementsToAnimate = [
+                ...document.querySelectorAll('.fade-in'),
+                ...document.querySelectorAll('.slide-in-left'),
+                ...document.querySelectorAll('.slide-in-right'),
+                ...document.querySelectorAll('.scale-in'),
+                ...document.querySelectorAll('section'),
+                ...document.querySelectorAll('.chart-container'),
+                ...document.querySelectorAll('.mapa-360-container'),
+                ...document.querySelectorAll('.info-grid'),
+                ...document.querySelectorAll('.grid-2')
+            ];
+
+            elementsToAnimate.forEach(el => {
+                if (el) observer.observe(el);
+            });
+        }
+
+        // ====== ANIMAÇÃO DE CARREGAMENTO INICIAL ======
+        function initPageAnimations() {
+            // Animação suave para o header
+            const header = document.querySelector('header');
+            if (header) {
+                header.style.opacity = '0';
+                header.style.transform = 'translateY(-20px)';
+
+                setTimeout(() => {
+                    header.style.transition = 'all 0.8s ease-out';
+                    header.style.opacity = '1';
+                    header.style.transform = 'translateY(0)';
+                }, 100);
+            }
+
+            // Iniciar animações de scroll após um breve delay
+            setTimeout(() => {
+                initScrollAnimations();
+            }, 500);
+        }
+
+        // ====== ANIMAÇÃO PARA LINKS DE NAVEGAÇÃO ======
+        function initSmoothScrolling() {
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+
+                    if (targetSection) {
+                        // Fechar menu mobile se estiver aberto
+                        const hamburger = document.getElementById('hamburger');
+                        const navLinks = document.getElementById('navLinks');
+                        if (hamburger && navLinks) {
+                            hamburger.classList.remove('active');
+                            navLinks.classList.remove('active');
+                        }
+
+                        // Scroll suave para a seção
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // ====== ANIMAÇÃO PARA BOTÕES ======
+        function initButtonAnimations() {
+            const buttons = document.querySelectorAll('button, .nav-link, .footer-link');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    // Efeito de ripple
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    ripple.style.cssText = `
                 position: absolute;
                 border-radius: 50%;
                 background: rgba(255, 255, 255, 0.6);
                 transform: scale(0);
-                animation: ripple-animation 0.6s linear;
-            }
-            
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            .btn {
-                position: relative;
-                overflow: hidden;
-            }
-        `;
-        document.head.appendChild(style);
+                animation: ripple 0.6s linear;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+            `;
+
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        }
+
+        // Adicione este keyframe para o efeito ripple
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+        document.head.appendChild(rippleStyle);
+
+        // ====== INICIALIZAR TODAS AS ANIMAÇÕES ======
+        document.addEventListener('DOMContentLoaded', function () {
+            // Aguardar o carregamento dos dados
+            setTimeout(() => {
+                initPageAnimations();
+                initSmoothScrolling();
+                initButtonAnimations();
+            }, 1000);
+        });
+
     </script>
 </body>
+
 </html>
